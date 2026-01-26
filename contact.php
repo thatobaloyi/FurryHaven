@@ -1,0 +1,556 @@
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+$isLoggedIn = isset($_SESSION['username']);
+$username = $isLoggedIn ? $_SESSION['username'] : '';
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+  <style>
+    :root {
+      --primary-color: #003366;
+      --secondary-color: #FF8C00;
+      --background-color: #f8f4e9;
+      --text-color: #333333;
+      --light-text: #f8f8f8;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: var(--background-color);
+      color:darkblue; /* Changed text color to blue */
+      margin: 0;
+      padding: 0;
+    }
+    h1, h2, h3, h4, p {
+        color: var(--primary-color);
+    }
+
+    .main-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 75px; display: flex; align-items: center; justify-content: space-between; padding: 8px 24px;
+      z-index: 9999;
+      transition: background-color 300ms ease, box-shadow 300ms ease,
+                  backdrop-filter 300ms ease, border-bottom 300ms ease, color 200ms;
+      background: rgba(255, 248, 240, 0.0);
+      border-bottom: none;
+    }
+
+    /* logo */
+    .main-header .logo img {
+      height: 80px;
+      display: block;
+    }
+
+    /* Transparent state */
+    .main-header.transparent {
+      background: rgba(255, 248, 240, 0.45);
+      -webkit-backdrop-filter: blur(10px) saturate(1.05);
+      backdrop-filter: blur(10px) saturate(1.05);
+      border-bottom: 1px solid rgba(0,0,0,0.03);
+      box-shadow: none;
+    }
+  
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 180px;
+      margin: 0; padding: 0;
+    }
+
+    .nav-links li { position: relative; }
+
+    .nav-links a {
+      line-height: 1.6;
+      text-decoration: none;
+      font-weight: 600;
+      color: var(--primary-color); /* Changed to blue variable */
+      font-size: 18px;
+    }
+
+    .nav-links a:hover { color: var(--secondary-color); }
+
+    /* Dropdown */
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      top: 120%;
+      left: 0;
+      background: var(--background-color);
+      min-width: 180px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      padding: 5px 0;
+      list-style: none;
+      z-index: 1000;
+    }
+
+    .dropdown-content li a {
+      display: block;
+      padding: 10px 16px; line-height: 1.6;
+      font-weight: 500;
+      color: var(--primary-color); /* Changed to blue variable */
+    }
+
+    .dropdown-content li a:hover { background-color: var(--secondary-color); color: var(--light-text); }
+    .dropdown:hover .dropdown-content { display: block; }
+
+    /* Solid (scrolled) state */
+    .main-header.solid {
+      background: #FFF8F0;
+      -webkit-backdrop-filter: none;
+      backdrop-filter: none;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+    }
+    .main-header.solid .nav-links a {
+      color: var(--primary-color);
+      text-shadow: none;
+    }
+    .main-header.solid .profile-icon svg {
+      fill: var(--primary-color);
+    }
+
+    /* Dropdowns */
+    .dropdown-content,
+    .profile-dropdown-menu {
+      background: var(--background-color);
+    }
+
+    /* Carousel spacing */
+    .carousel-item {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .carousel-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center center;
+    }
+
+    .carousel-caption {
+      padding-top: 24px;
+    }
+
+    /* Accessibility hover */
+    .main-header.transparent .nav-links a:hover {
+      color: #ffefcf;
+      text-decoration: none;
+    }
+
+    .profile-icon {
+      position: relative;
+      cursor: pointer;
+    }
+
+    .profile-icon svg { width: 32px; height: 32px; fill: #18436e; transition: all 0.3s ease; }
+    .profile-icon.active svg { fill: var(--secondary-color); transform: scale(1.1); }
+
+    .profile-dropdown-menu {
+      position: absolute;
+      top: 50px;
+      right: 0;
+      width: 280px;
+      background: var(--background-color);
+      min-width: 120px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      padding: 5px 0;
+      list-style: none;
+      z-index: 1000;
+    }
+
+    .profile-dropdown li a {
+      display: block;
+      padding: 10px 16px;
+      color: var(--primary-color);
+      font-weight: 500;
+      text-decoration: none;
+    }
+
+    .profile-dropdown li a:hover { background: var(--secondary-color); color: var(--light-text); }
+    .profile-icon.active .profile-dropdown { display: block; }
+
+    /* General carousel captions */
+    .carousel-caption {
+      position: absolute;
+      top: 50%;
+      max-width: 46%;
+      z-index: 3;
+      transform: translateY(-50%);
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    /* Slide 1 & 2 captions */
+    .caption-slide1,
+    .caption-slide2 {
+      left: 200px;
+      text-align: left;
+      max-width: 600px;
+      color: #1f3c74; /* Ensures white text on image banners */
+    }
+
+    /* Heading and paragraph sizes for slide 1 & 2 */
+    .caption-slide1 h2,
+    .caption-slide2 h2 {
+      font-size: clamp(36px, 5vw, 60px);
+      font-weight: 800;
+      color:#1f3c74; /* Ensures white text */
+    }
+
+    .caption-slide1 p,
+    .caption-slide2 p {
+      font-size: clamp(18px, 2.5vw, 24px);
+      color: #1f3c74; /* Ensures white text */
+    }
+
+    /* Slide 1 special underline */
+    .caption-slide1 h2 {
+      border-bottom: 4px solid var(--secondary-color);
+      display: inline-block;
+      padding-bottom: 5px;
+    }
+
+    /* Slide 3 caption */
+    .slide3-caption {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      z-index: 5;
+    }
+
+    /* Slide 3 quote + button */
+    .carousel-quote {
+      font-size: clamp(36px, 5vw, 60px);
+      color: #fff;
+      font-weight: 800;
+      display: block;
+      margin-bottom: 20px;
+    }
+
+    main {
+      width: 90%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 0;
+    }
+
+    main h1 {
+      margin-top: 2rem;
+      color: var(--primary-color);
+    }
+
+    main img {
+      margin: 1rem 0;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    button {
+      display: inline-block;
+      background-color: var(--secondary-color);
+      color: white;
+      padding: 0.7rem 1.5rem;
+      border: none;
+      border-radius: 4px;
+      margin: 0.5rem;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #e67e00;
+    }
+
+    @media (max-width: 768px) {
+      header {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+    .opportunities {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      text-align: center;
+    }
+
+    .opportunity-card {
+      background-color: white;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+      color: var(--primary-color); /* Changed to blue variable */
+      display: flex;
+      flex-direction: column;
+      padding: 1rem;
+    }
+
+    .opportunity-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+    }
+
+    .opportunity-card h3 {
+      margin: 0 0 0.5rem;
+      color: var(--primary-color); /* Changed to blue variable */
+    }
+
+    .opportunity-card p {
+      color: var(--primary-color); /* Changed to blue variable */
+    }
+
+    footer {
+      background-color: var(--primary-color);
+      color: var(--light-text);
+      padding: 3rem 5% 1rem;
+      font-family: Arial, sans-serif;
+    }
+
+    .footer-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .footer-links h4 {
+      margin-bottom: 1rem;
+      font-size: 1.2rem;
+      border-bottom: 2px solid var(--secondary-color);
+      display: inline-block;
+      padding-bottom: 5px;
+    }
+
+    .footer-links ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .footer-links ul li {
+      margin: 0.5rem 0;
+    }
+
+    .footer-links ul li a {
+      color: var(--light-text);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .footer-links ul li a:hover {
+      color: var(--secondary-color);
+    }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+      padding-top: 1rem;
+      text-align: center;
+      font-size: 0.9rem;
+      opacity: 0.8;
+    }
+
+    .social-icons a {
+      color: var(--light-text);
+      font-size: 1.5rem;
+      margin-left: 1rem;
+    }
+        
+    @media (max-width: 768px) {
+        header {
+            flex-direction: column;
+            padding: 1rem;
+        } 
+    }
+
+    .carousel-inner .item img {
+      width: 100%;
+      height: 300px;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+      margin: auto;
+    }
+    
+    .Map iframe {
+        width: 100%;
+        max-width: 600px; /* Adjusted to be more responsive */
+    }
+
+     .footer-links {
+    color: #ffffff; /* makes all text inside white */
+}
+
+/* Optional: if you want to style only headings or paragraphs differently */
+.footer-links h4 {
+    color: #ffffff;
+}
+
+.footer-links p {
+    color: #ffffff;
+}
+
+
+  </style>
+</head>
+<body>
+
+  <header class="main-header transparent">
+    <a href="homepage.php" class="logo">
+      <img src="logo.png" alt="Furry Haven Logo">
+    </a>
+    <nav>
+      <ul class="nav-links">
+        <li><a href="Aboutus2.html">About Us</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li class="dropdown">
+          <a href="#">Get Involved ▾</a>
+          <ul class="dropdown-content">
+            <li><a href="adoptable.php">Adopt</a></li>
+            <li><a href="donate.php">Donate</a></li>
+            <li><a href="boarding.php">Boarding</a></li>
+            <li><a href="volunteering.php">Volunteer</a></li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+    <div class="profile-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24">
+        <circle cx="12" cy="7" r="5"/>
+        <path d="M2 21c0-5.5 4.5-10 10-10s10 4.5 10 10"/>
+      </svg>
+      <ul class="profile-dropdown">
+        <li><a href="login.php">Sign In</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <div id="furryhavenBanner" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src= "images/jamie-street-wFbkj9ilGnQ-unsplash.jpg" class="d-block w-100" style="height:700px; object-fit:cover; object-position: 70% 50%;" alt="Dog 1">
+        <div class="carousel-caption caption-slide1">
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <br><br>
+  
+  <main>
+    <section class="opportunities">
+      <div class="opportunity-card">
+        <h3>Reception:</h3><br>
+        <p>C: +27 45 445 2829 <br> furryhavendonations@gmail.com </p>
+        <br> Hamilton Building, Prince Alfred St, Makhanda, 6139
+      </div>
+      <div class="opportunity-card">
+        <h3>Kennels:</h3><br>
+        <p>T: +27 81 485 7798 <br> furrykennels@gmail.com </p>
+        <br> Hamilton Building, Prince Alfred St, Makhanda, 6139
+      </div>
+      <div class="opportunity-card">
+        <h3>Volunteering:</h3><br>
+        <p>Z: +27 86 473 4389 <br> furryvolunteer@gmail.com</p>
+        <br> Hamilton Building, Prince Alfred St, Makhanda, 6139
+      </div>
+    </section>
+    
+    <br>
+    
+    <section class="opportunities">
+      <div class="opportunity-card">
+        <br><h3>Vet Clinic:</h3>
+        <p>8:30am to 17:00pm (Mon - Sun)</p>
+        <p>E: +27 84 384 2230 <br> Vet Consultations through appointments only</p>
+        <br><br><br>
+        <h3>After Hours Emergencies:</h3>
+        <p>17:00pm to 22:00pm K: +27 76 876 9797 <br> or C: +27 86 494 2304</p>
+        <p>From 22:00pm please call EzTeck clinic: +27 84 843 3488 <br> or call EzTeck Animals: +27 38 483 3848</p>
+      </div>
+      <div class="Map">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3334.2403922764356!2d26.516660076282605!3d-33.312530273444374!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1e645dd751719d0b%3A0xca9656365472d176!2sHamilton%20Building%2C%20Prince%20Alfred%20St%2C%20Makhanda%2C%206139!5e0!3m2!1sen!2sza!4v1756059908748!5m2!1sen!2sza" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+    </section>
+  </main>
+  
+  <footer>
+    <div class="footer-container">
+      <div class="footer-links">
+        <h4>Stay in touch</h4>
+        <p>Tel: 082 770 2667</p>
+        <p>Email: info@example.org</p>
+      </div>
+      <div class="footer-links">
+        <h4>Support</h4>
+        <ul>
+          <li><a href="#">Report abuse</a></li>
+          <li><a href="#">Donate</a></li>
+          <li><a href="#">Volunteer</a></li>
+          <li><a href="#">Foster an animal</a></li>
+          <li><a href="#">Privacy policy</a></li>
+        </ul>
+      </div>
+      <div class="footer-links">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#">Adopt a dog</a></li>
+          <li><a href="#">Adopt a cat</a></li>
+          <li><a href="#">Success stories</a></li>
+          <li><a href="#">About us</a></li>
+          <li><a href="#">Contact us</a></li>
+        </ul>
+      </div>
+      <div class="footer-links">
+        <h4>Stay connected</h4>
+        <form class="newsletter">
+          <input type="email" placeholder="Sign up for updates">
+          <button type="submit">Subscribe</button>
+        </form>
+
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 FurryHaven | Website design & hosting sponsored by Ezteck</p>
+    </div>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const profileIcon = document.getElementById('profileIcon');
+      const dropdownMenu = document.getElementById('profileDropdownMenu');
+      
+      profileIcon.addEventListener('click', function(event) {
+          event.stopPropagation();
+          dropdownMenu.classList.toggle('active');
+      });
+      
+      document.addEventListener('click', function(event) {
+          if (!profileIcon.contains(event.target) && !dropdownMenu.contains(event.target)) {
+              dropdownMenu.classList.remove('active');
+          }
+      });
+    });
+  </script>
+</body>
+</html>

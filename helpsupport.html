@@ -1,0 +1,170 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Help & Support</title>
+  <link rel="stylesheet" href="style2.css">
+  <style>
+    h1 {
+      color: #003366;
+      text-align: center;
+      border-bottom: 2px solid #FF8C00;
+      padding-bottom: 0.5rem;
+    }
+
+    blockquote {
+      font-style: italic;
+      text-align: center;
+      color: #003366;
+      font-size: 1.1rem;
+      margin: 1.5rem 0;
+    }
+
+    .section {
+      background-color: #fff;
+      border-radius: 8px;
+      margin: 15px auto;
+      padding: 15px 20px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      max-width: 900px;
+    }
+
+    .section h2 {
+      margin: 0;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #003366;
+    }
+
+    .section-content {
+      display: none;
+      margin-top: 10px;
+      color: #333;
+    }
+
+    .section h2 span {
+      font-weight: normal;
+      font-size: 16px;
+      color: #FF8C00;
+    }
+
+    ul {
+      margin-left: 20px;
+    }
+
+    p {
+      margin: 5px 0;
+    }
+
+    @media screen and (max-width: 768px) {
+      .section { width: 95%; }
+    }
+  </style>
+</head>
+<body>
+
+ <div class="dashboard-container">
+    <!-- Sidebar -->
+    <?php include 'sidebar2.php'; ?>
+
+    <!-- Main Content -->
+    <div class="main-content" id="mainContent">
+
+      <h1>Help & Support</h1>
+      <blockquote>"Record every rescue — every life matters."</blockquote>
+
+      <!-- Getting Started -->
+      <div class="section">
+        <h2 onclick="toggleSection(this)">Getting Started <span>+</span></h2>
+        <div class="section-content">
+          <p>Welcome to the Admin Dashboard! Here’s what you need to know to navigate efficiently:</p>
+          <ul>
+            <li>Use the sidebar to access modules like Users, Reports, Analytics, Notifications, and Settings.</li>
+            <li>Hover over items in the sidebar to see descriptions of each module.</li>
+            <li>Always log out when done to secure your account.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- User Management -->
+      <div class="section">
+        <h2 onclick="toggleSection(this)">User Management <span>+</span></h2>
+        <div class="section-content">
+          <ul>
+            <li><strong>Add Users:</strong> Fill in all required fields and assign appropriate roles.</li>
+            <li><strong>Edit Users:</strong> Update user info, roles, or permissions.</li>
+            <li><strong>Remove Users:</strong> Soft delete users when necessary. Deleted users can be restored if needed.</li>
+            <li><strong>Reset Passwords:</strong> Use this to help users regain access to their accounts.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Data Management -->
+      <div class="section">
+        <h2 onclick="toggleSection(this)">Data Management <span>+</span></h2>
+        <div class="section-content">
+          <ul>
+            <li>View, edit, or delete records such as boarding animals or reports.</li>
+            <li>Export data for reporting or backups.</li>
+            <li>Archived or deleted records can be restored from the “Deleted Records” module.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Analytics & Reporting -->
+      <div class="section">
+        <h2 onclick="toggleSection(this)">Analytics & Reporting <span>+</span></h2>
+        <div class="section-content">
+          <ul>
+            <li>Monitor charts and statistics to track trends in boarding, health, or monthly activities.</li>
+            <li>Export reports for internal use or presentations.</li>
+            <li>Ensure data accuracy before sharing reports externally.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Troubleshooting -->
+      <div class="section">
+        <h2 onclick="toggleSection(this)">Troubleshooting <span>+</span></h2>
+        <div class="section-content">
+          <ul>
+            <li>Dashboard not loading: Refresh the page or clear browser cache.</li>
+            <li>Missing modules: Check your admin role permissions.</li>
+            <li>Error when approving/deleting records: Ensure the database connection is active.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Contact Support -->
+      <div class="section">
+        <h2 onclick="toggleSection(this)">Contact Support <span>+</span></h2>
+        <div class="section-content">
+          <p>If the guides above don’t solve your problem, reach out to support:</p>
+          <p>Email: <a href="mailto:EzTeck@gmail.com">EzTeck@gmail.com</a></p>
+          <p>Phone: +27 123 456 7890</p>
+        </div>
+      </div>
+
+    </div>
+ </div>
+
+ <script>
+   function toggleSection(header) {
+     const content = header.nextElementSibling;
+     const span = header.querySelector('span');
+     if (content.style.display === "block") {
+       content.style.display = "none";
+       span.textContent = "+";
+     } else {
+       content.style.display = "block";
+       span.textContent = "−";
+     }
+   }
+ </script>
+
+</body>
+</html>

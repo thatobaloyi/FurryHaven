@@ -1,0 +1,3 @@
+- page for creating a cage and assigning it to a kennel.
+- in the animal registration, I want it to be able to show available cages based on animal type, and when we choose a cage, the animal should be allocated to that cage.
+- 

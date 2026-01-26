@@ -1,0 +1,64 @@
+[08-Oct-2025 03:27:56 Africa/Johannesburg] Analytics fatal error: Array
+(
+    [type] => 2
+    [message] => mail(): Failed to connect to mailserver at &quot;localhost&quot; port 25, verify your &quot;SMTP&quot; and &quot;smtp_port&quot; setting in php.ini or use ini_set()
+    [file] => D:\SysDev\Ezteck\analytics_email.php
+    [line] => 142
+)
+
+[08-Oct-2025 03:28:17 Africa/Johannesburg] Analytics fatal error: Array
+(
+    [type] => 2
+    [message] => mail(): Failed to connect to mailserver at &quot;localhost&quot; port 25, verify your &quot;SMTP&quot; and &quot;smtp_port&quot; setting in php.ini or use ini_set()
+    [file] => D:\SysDev\Ezteck\analytics_email.php
+    [line] => 142
+)
+
+[08-Oct-2025 07:50:35 Africa/Johannesburg] Analytics fatal error: Array
+(
+    [type] => 2
+    [message] => mail(): Failed to connect to mailserver at &quot;localhost&quot; port 25, verify your &quot;SMTP&quot; and &quot;smtp_port&quot; setting in php.ini or use ini_set()
+    [file] => D:\SysDev\Ezteck\analytics_email.php
+    [line] => 142
+)
+
+[08-Oct-2025 08:07:30 Africa/Johannesburg] Analytics fatal error: Array
+(
+    [type] => 2
+    [message] => mail(): Failed to connect to mailserver at &quot;localhost&quot; port 25, verify your &quot;SMTP&quot; and &quot;smtp_port&quot; setting in php.ini or use ini_set()
+    [file] => D:\SysDev\Ezteck\analytics_email.php
+    [line] => 131
+)
+
+[08-Oct-2025 08:07:49 Africa/Johannesburg] Analytics fatal error: Array
+(
+    [type] => 2
+    [message] => mail(): Failed to connect to mailserver at &quot;localhost&quot; port 25, verify your &quot;SMTP&quot; and &quot;smtp_port&quot; setting in php.ini or use ini_set()
+    [file] => D:\SysDev\Ezteck\analytics_email.php
+    [line] => 153
+)
+
+[08-Oct-2025 08:10:07 Africa/Johannesburg] Analytics fatal error: Array
+(
+    [type] => 2
+    [message] => mail(): Failed to connect to mailserver at &quot;localhost&quot; port 25, verify your &quot;SMTP&quot; and &quot;smtp_port&quot; setting in php.ini or use ini_set()
+    [file] => D:\SysDev\Ezteck\analytics_email.php
+    [line] => 131
+)
+
+[08-Oct-2025 08:27:48 Africa/Johannesburg] Analytics mail() failed: Array
+(
+    [type] => 2
+    [message] => mail(): Failed to connect to mailserver at &quot;localhost&quot; port 25, verify your &quot;SMTP&quot; and &quot;smtp_port&quot; setting in php.ini or use ini_set()
+    [file] => D:\SysDev\Ezteck\analytics_email.php
+    [line] => 215
+)
+
+[08-Oct-2025 08:27:48 Africa/Johannesburg] Analytics fatal error: Array
+(
+    [type] => 2
+    [message] => mail(): Failed to connect to mailserver at &quot;localhost&quot; port 25, verify your &quot;SMTP&quot; and &quot;smtp_port&quot; setting in php.ini or use ini_set()
+    [file] => D:\SysDev\Ezteck\analytics_email.php
+    [line] => 215
+)
+

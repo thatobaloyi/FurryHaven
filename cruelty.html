@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FurryHaven - Five Freedoms</title>
+  <style>
+    /* Reset */
+ /* --- Header --- */
+.main-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 75px;                 /* <-- shorter (was 72px) */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 24px;            /* <-- reduced padding */
+  z-index: 9999;
+  transition: background-color 300ms ease, box-shadow 300ms ease,
+              backdrop-filter 300ms ease, border-bottom 300ms ease, color 200ms;
+  background: rgba(255, 248, 240, 0.0);
+  border-bottom: none;
+}
+
+
+    /* logo */
+    .main-header .logo img {
+      height: 70px;
+      display: block;
+    }
+
+    /* Transparent state */
+    .main-header.transparent {
+      background: rgba(255, 248, 240, 0.45);
+      -webkit-backdrop-filter: blur(10px) saturate(1.05);
+      backdrop-filter: blur(10px) saturate(1.05);
+      border-bottom: 1px solid rgba(0,0,0,0.03);
+      box-shadow: none;
+    }
+  
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 180px;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-links li { position: relative; }
+
+.nav-links a {
+  text-decoration: none;
+  font-weight: 600;
+  color: #18436e;
+  font-size: 18px;
+}
+
+.nav-links a:hover { color: #df7100; }
+
+/* Dropdown */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  top: 120%;
+  left: 0;
+  background: #FFF8F0;
+  min-width: 180px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  padding: 5px 0;
+  list-style: none;
+  z-index: 1000;
+}
+
+.dropdown-content li a {
+  display: block;
+  padding: 10px 16px;
+  font-weight: 500;
+  color: #18436e;
+}
+
+.dropdown-content li a:hover { background-color: #df7100; color: #fff; }
+.dropdown:hover .dropdown-content { display: block; }
+
+    /* Solid (scrolled) state */
+    .main-header.solid {
+      background: #FFF8F0;
+      -webkit-backdrop-filter: none;
+      backdrop-filter: none;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+    }
+    .main-header.solid .nav-links a {
+      color: #18436e;
+      text-shadow: none;
+    }
+    .main-header.solid .profile-icon svg {
+      fill: #18436e;
+    }
+
+    /* Dropdowns */
+    .dropdown-content,
+    .profile-dropdown {
+      background: #FFF8F0;
+    }
+
+    /* Carousel spacing */
+
+.carousel-item {
+  position: relative;
+  width: 100%;
+  height: 100vh;       /* full viewport height */
+  overflow: hidden;
+}
+
+.carousel-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;      /* fills container, may crop edges */
+  object-position: center center; /* keeps center of image in view */
+}
+
+    .carousel-caption {
+      padding-top: 24px;
+    }
+
+    /* Accessibility hover */
+    .main-header.transparent .nav-links a:hover {
+      color: #ffefcf;
+      text-decoration: none;
+    }
+
+    .profile-icon {
+  position: relative;
+  cursor: pointer;
+}
+
+.profile-icon svg { width: 32px; height: 32px; fill: #18436e; transition: all 0.3s ease; }
+.profile-icon.active svg { fill: #df7100; transform: scale(1.1); }
+
+.profile-dropdown {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: 120%;
+  background: #FFF8F0;
+  min-width: 120px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  padding: 5px 0;
+  list-style: none;
+  z-index: 1000;
+}
+
+.profile-dropdown li a {
+  display: block;
+  padding: 10px 16px;
+  color: #18436e;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.profile-dropdown li a:hover { background: #df7100; color: #fff; }
+.profile-icon.active .profile-dropdown { display: block; }
+
+/* Carousel arrows */
+.carousel-control-prev,
+.carousel-control-next {
+  top: 40%; /* adjust vertical position */
+  transform: translateY(-50%);
+}
+
+/* Centered button container (for slide 3) */
+.carousel-button-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 5;
+}
+
+/* General carousel captions */
+.carousel-caption {
+  position: absolute;
+  top: 50%;
+  max-width: 46%;
+  z-index: 3;
+  transform: translateY(-50%);
+  font-family: 'Segoe UI', sans-serif;
+  color: white;
+
+}
+
+/* Slide 1 & 2 captions */
+.caption-slide1,
+.caption-slide2 {
+  left: 200px; /* distance from left */
+  text-align: left;
+  max-width: 600px;
+}
+
+/* Heading and paragraph sizes for slide 1 & 2 */
+.caption-slide1 h2,
+.caption-slide2 h2 {
+  font-size: clamp(36px, 5vw, 60px);
+  font-weight: 800;
+}
+
+.caption-slide1 p,
+.caption-slide2 p {
+  font-size: clamp(18px, 2.5vw, 24px);
+}
+
+/* Slide 1 special underline */
+.caption-slide1 h2 {
+  border-bottom: 4px solid #FF8C00;
+  display: inline-block;
+  padding-bottom: 5px;
+}
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f8f8f8;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* Header */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(8px);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      padding: 15px 5%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    header .logo img {
+      height: 60px;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 30px;
+    }
+
+    nav ul li {
+      position: relative;
+    }
+
+    nav ul li a {
+      font-weight: 600;
+      color: #18436e;
+      transition: color 0.3s;
+    }
+
+    nav ul li a:hover {
+      color: #df7100;
+    }
+
+    /* Dropdown */
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      top: 120%;
+      left: 0;
+      background: #FFF8F0;
+      min-width: 160px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      border-radius: 8px;
+      padding: 10px 0;
+      z-index: 1000;
+    }
+
+    .dropdown-content a {
+      display: block;
+      padding: 10px 20px;
+      font-weight: 500;
+      color: #18436e;
+    }
+
+    .dropdown-content a:hover {
+      background-color: #df7100;
+      color: white;
+    }
+
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+
+    /* Hero Section */
+    .hero {
+      margin-top: 90px; /* offset header */
+      background: url('Dog-Chained-H16252.jpg.png') center/cover no-repeat;
+      height: 500px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      text-align: center;
+    }
+
+    .hero h1 {
+      font-size: clamp(2rem, 5vw, 3rem);
+      background: rgba(0,0,0,0.5);
+      padding: 15px 25px;
+      border-radius: 10px;
+    }
+
+    .section-intro {
+      max-width: 900px;
+      margin: 50px auto;
+      text-align: center;
+      padding: 0 20px;
+    }
+
+    .section-intro h2 {
+      font-size: 2rem;
+      color: #df7100;
+      margin-bottom: 20px;
+    }
+
+    .section-intro p {
+      font-size: 1.1rem;
+      color: #555;
+    }
+
+    /* Freedom Cards */
+    .freedom-cards {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+      padding: 50px 5%;
+    }
+
+    .freedom-card {
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      width: 280px;
+      overflow: hidden;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .freedom-card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+
+    .freedom-card h3 {
+      font-size: 1.3rem;
+      color: #18436e;
+      margin: 15px;
+    }
+
+    .freedom-card p {
+      font-size: 1rem;
+      margin: 0 15px 15px;
+      color: #555;
+    }
+
+    .freedom-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+    }
+
+    /* Report Section */
+    .report-section {
+      background: #df7100;
+      color: white;
+      text-align: center;
+      padding: 60px 20px;
+      margin: 50px 5%;
+      border-radius: 15px;
+    }
+
+    .report-section h2 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+    }
+
+    .report-section a {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 15px 30px;
+      background: #18436e;
+      color: white;
+      font-weight: bold;
+      border-radius: 8px;
+      transition: background 0.3s;
+    }
+
+    .report-section a:hover {
+      background: #000033;
+    }
+
+    footer {
+  background-color: #18436e;
+  color: #f1f1f1;
+  padding: 3rem 5% 1rem;
+  font-family: Arial, sans-serif;
+}
+
+.footer-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.footer-links h4 {
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+  border-bottom: 2px solid #df7100;
+  display: inline-block;
+  padding-bottom: 5px;
+}
+
+.footer-links ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-links ul li {
+  margin: 0.5rem 0;
+}
+
+.footer-links ul li a {
+  color: #f1f1f1;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.footer-links ul li a:hover {
+  color: #df7100;
+}
+
+    .footer-bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  padding-top: 1rem;
+  text-align: center;
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+    @media (max-width: 768px) {
+      .freedom-cards {
+        flex-direction: column;
+        align-items: center;
+      }
+      nav ul {
+        gap: 15px;
+      }
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+<!-- Header -->
+  <header class="main-header transparent">
+    <a href="homepage.php" class="logo">
+      <img src="logo.png" alt="Furry Haven Logo">
+    </a>
+    <nav>
+      <ul class="nav-links">
+        <li><a href="Aboutus2.php">About Us</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li class="dropdown">
+          <a href="#">Get Involved ▾</a>
+          <ul class="dropdown-content">
+            <li><a href="adoptable.php">Adopt</a></li>
+            <li><a href="my_donations.php">Donate</a></li>
+            <li><a href="campaignpage.php">Campaigns</a></li>
+             <li><a href="userAnimal.php">Boarding</a></li>
+            <li><a href="volunteerpage.php">Volunteer</a></li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+    <div class="profile-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24">
+        <circle cx="12" cy="7" r="5"/>
+        <path d="M2 21c0-5.5 4.5-10 10-10s10 4.5 10 10"/>
+      </svg>
+      <ul class="profile-dropdown">
+        <li><a href="login.php">Sign In</a></li>
+      </ul>
+    </div>
+  </header>
+
+<div id="furryhavenBanner" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
+  <div class="carousel-inner">
+
+    <!-- Slide 1 -->
+<div class="carousel-item active">
+  <img src="Dog-Chained-H16252.jpg.png" class="d-block w-100" style="height:700px; object-fit:cover; object-position: 70% 50%;" alt="Dog 1">
+  <div class="carousel-caption caption-slide1">
+    <h2>Welcome to FurryHaven!</h2>
+    <p>Supporting Makhanda’s animals, one paw at a time.</p>
+  </div>
+</div>
+
+  <!-- Intro Section -->
+  <section class="section-intro">
+    <h2>The Five Freedoms of Animal Welfare</h2>
+    <p>
+      The <strong>Five Freedoms</strong> are internationally recognized principles ensuring animals live healthy, happy, and dignified lives. Explore them below.
+    </p>
+  </section>
+
+  <!-- Freedom Cards -->
+  <section class="freedom-cards">
+    <div class="freedom-card">
+      <img src="dogeating.jpg" alt="">
+      <h3>Freedom from Hunger and Thirst</h3>
+      <p>Providing ready access to fresh water and a diet to maintain full health and vigour.</p>
+    </div>
+    <div class="freedom-card">
+      <img src="catsleeping.jpg" alt="">
+      <h3>Freedom from Discomfort</h3>
+      <p>Providing an appropriate environment, including shelter from the elements.</p>
+    </div>
+    <div class="freedom-card">
+      <img src="crueltyimage.jpg" alt="">
+      <h3>Freedom from Pain, Injury and Disease</h3>
+      <p>Ensuring access to veterinary care and preventing injury or disease.</p>
+    </div>
+    <div class="freedom-card">
+      <img src="dogrunning.jpg" alt="">
+      <h3>Freedom to Express Normal Behaviour</h3>
+      <p>Providing sufficient space, proper facilities, and company of their own kind.</p>
+    </div>
+    <div class="freedom-card">
+      <img src="cruelty3.jpg" alt="">
+      <h3>Freedom from Fear and Distress</h3>
+      <p>Ensuring conditions and treatment which avoid mental suffering.</p>
+    </div>
+  </section>
+
+  <!-- Report Section -->
+  <section class="report-section">
+    <h2>See Animal Cruelty? Report it!</h2>
+    <a href="cruelty.php">Report Cruelty</a>
+  </section>
+
+<footer>
+  <div class="footer-container">
+
+    <!-- Contact -->
+    <div class="footer-links">
+      <h4>Stay in touch</h4>
+      <p>Tel: 082 770 2667</p>
+      <p>Email: info@example.org</p>
+    </div>
+
+    <!-- Support -->
+    <div class="footer-links">
+      <h4>Support</h4>
+      <ul>
+        <li><a href="#">Report abuse</a></li>
+        <li><a href="#">Donate</a></li>
+        <li><a href="#">Volunteer</a></li>
+        <li><a href="#">Foster an animal</a></li>
+        <li><a href="#">Privacy policy</a></li>
+      </ul>
+    </div>
+
+    <!-- Company -->
+    <div class="footer-links">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="#">Adopt a dog</a></li>
+        <li><a href="#">Adopt a cat</a></li>
+        <li><a href="#">Success stories</a></li>
+        <li><a href="#">About us</a></li>
+        <li><a href="#">Contact us</a></li>
+      </ul>
+    </div>
+
+    <!-- Newsletter + Social -->
+    <div class="footer-links">
+      <h4>Stay connected</h4>
+      <form class="newsletter">
+        <input type="email" placeholder="Sign up for updates">
+        <button type="submit">Subscribe</button>
+      </form>
+      <div class="social-icons">
+        <a href="#"><img src="facebook-icon.png" alt="Facebook"></a>
+        <a href="#"><img src="instagram-icon.jpg" alt="Instagram"></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Copyright -->
+  <div class="footer-bottom">
+    <p>© 2025 FurryHaven | Website design & hosting sponsored by Ezteck</p>
+  </div>
+</footer>
+
+</body>
+</html>
+
+
