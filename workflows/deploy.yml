@@ -3,7 +3,7 @@ name: Deploy to InfinityFree
 on:
   push:
     branches:
-      - main  # Or whichever branch you want to trigger the deploy
+      - main  
 
 jobs:
   web-deploy:
