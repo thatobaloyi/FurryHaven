@@ -43,7 +43,7 @@ To set up the project locally, follow these steps:
 1.  **Prerequisites:**
     -   A local web server environment (e.g., XAMPP, MAMP, WAMP).
     -   PHP and Composer installed.
-    -   A MySQL/MariaDB database server.
+    -   A MySQL/MariaDB database server. 
 
 2.  **Installation:**
     -   Clone the repository to your local machine.
