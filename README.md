@@ -2,7 +2,7 @@
 
 FurryHaven is a comprehensive management system designed for the Makhanda SPCA, developed by team EzTeck. This project was created for the 2025 Information System III System Development Project.
 
-> 🏆 **Project Achievement:** This system secured **2nd Place** out of 32 teams in the competition.
+> 🏆 **Project Achievement:** This system secured **2nd Place** out of 32 teams in the competition. 
 
 ## Overview
 
